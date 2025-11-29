@@ -1,42 +1,92 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+.app-container {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #7c55ee, #4a3acb, #362caf);
+  color: white;
+  padding-bottom: 100px;
   text-align: center;
+  position: relative;
+  overflow-x: hidden;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.cloud-top {
+  width: 100%;
+  display: block;
+  margin-top: -20px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+.cloud-bottom {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.title {
+  margin-top: -40px;
+  font-size: 2.5rem;
+  font-weight: 700;
 }
 
-.card {
-  padding: 2em;
+.weather-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  padding: 20px;
 }
 
-.read-the-docs {
-  color: #888;
+.weather-card {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 20px;
+  border-radius: 20px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  transition: transform 0.2s ease;
+}
+
+.weather-card:hover {
+  transform: translateY(-6px);
+}
+
+.city-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.temp-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.temp {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.weather-icon {
+  width: 70px;
+}
+
+.description {
+  font-size: 1rem;
+  margin: 10px 0;
+  opacity: 0.9;
+}
+
+.details {
+  margin-top: 15px;
+  text-align: left;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  opacity: 0.95;
+}
+
+.loading {
+  color: white;
+  font-size: 2rem;
+  text-align: center;
+  margin-top: 100px;
 }
