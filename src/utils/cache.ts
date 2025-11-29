@@ -16,11 +16,15 @@ export const getCache = () => {
   const cached = localStorage.getItem(CACHE_KEY);
   if (!cached) return null;
 
-  const { timestamp, data } = JSON.parse(cached);
+    try {
+        const parsed = JSON.parse(cached);
 
-  if (Date.now() - timestamp < CACHE_TIME) {
-    return data; 
-  }
+        const isValid = (Date.now() - parsed.timestamp) < CACHE_TIME;
 
-  return null;
+        return isValid ? parsed.data : null;
+        
+    } catch (error) {
+        console.error("Error parsing cache:", error);
+        return null;
+    }
 };

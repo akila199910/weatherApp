@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import { loadCityCodes } from "./utils/loadCityCodes";
 import { getWeatherData } from "./services/weatherService";
+import { getCache } from "./utils/cache";
 
 function App() {
   const [weatherList, setWeatherList] = useState<any[]>([]);
@@ -9,6 +10,17 @@ function App() {
 
   useEffect(() => {
     const fetchWeather = async () => {
+
+      const cached = getCache();
+      if (cached) {
+        console.log("Loaded from cache");
+        setWeatherList(cached);
+        setLoading(false);
+        // if cached data is found, do not need to get data from API
+        // return
+        return;
+      }
+
       const codes = await loadCityCodes();
       const data = await getWeatherData(codes);
       setWeatherList(data);
