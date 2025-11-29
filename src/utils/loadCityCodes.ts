@@ -1,13 +1,16 @@
-type responseType = {
-            "CityCode": number,
-            "CityName": string,
-            "Temp": number,
-            "Status": string
-        }
+type City = {
+    CityCode: string;
+    CityName: string;
+    Temp: string;
+    Status: string;
+};
 
-export const loadCityCodes = async () =>{
-    const response = await fetch('/data/cityCodes.json');
-    const data : responseType[]  = await response.json();
+export const loadCityCodes = async () => {
+    const response = await fetch("/data/cities.json");
+    const data = await response.json();
+    console.log("Loaded city codes:", data);
 
-    return data.map(city => ({code: city.CityCode}));
-}
+    const array = data.List.map((city: City) => city.CityCode);
+
+    return array;
+};
