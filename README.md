@@ -1,73 +1,137 @@
-# React + TypeScript + Vite
+🌤️ WeatherApp — React + TypeScript + OpenWeather API + Docker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive Weather Dashboard built using React + Vite + TypeScript, which loads a list of city codes from cities.json, fetches real-time weather information from OpenWeather API, implements 5-minute caching, and displays a clean UI using custom CSS and cloud graphics.
 
-Currently, two official plugins are available:
+📁 Project Structure
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+WEATHERAPP/
+│
+├── public/
+│   ├── data/
+│   │   └── cities.json
+│   └── images/
+│       ├── cloud-top.png
+│       └── cloud-bottom.png
+│
+├── src/
+│   ├── assets/
+│   ├── services/
+│   │   └── weatherService.ts
+│   ├── utils/
+│   │   ├── loadCityCodes.ts
+│   │   └── cache.ts
+│   ├── App.tsx
+│   ├── App.css
+│   ├── index.css
+│   └── main.tsx
+│
+├── .env
+├── Dockerfile
+├── package.json
+├── vite.config.ts
+└── README.md
 
-## React Compiler
+🚀 Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+✔ Load city list from cities.json
+  The app reads the "List" array and extracts "CityCode" values.
 
-## Expanding the ESLint configuration
+✔ Fetch weather for each city
+  Uses the weather endpoint because the group endpoint is not available for new free API keys.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+✔ 5-Minute Caching (Assignment Requirement)
+  Weather responses are stored in localStorage and expire automatically after 5 minutes.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
+✔ Modern responsive UI
+  Uses cloud-style images and glass-effect cards.
+
+✔ Fully Dockerized
+  Includes a production-ready multi-stage Dockerfile using Node + Nginx.
+
+
+🔧 Technologies Used
+
+  React (Vite)
+  TypeScript
+  OpenWeather REST API
+  Modern CSS
+  Docker (Multi-stage build)
+  Nginx
+
+
+📥 Installation & Setup
+
+1️⃣ Install Dependencies
+    npm install
+
+2️⃣ Add Environment Variable
+    Create a .env file in the project root:
+    VITE_WEATHER_API_KEY=YOUR_OPENWEATHER_API_KEY
+
+3️⃣ Run Development Server
+    npm run dev
+
+Open browser:
+http://localhost:5173
+
+
+🌐 OpenWeather API Usage
+
+  Because the /data/2.5/group endpoint is not available to new free keys, this project uses:
+  https://api.openweathermap.org/data/2.5/weather?id={CITY_ID}&units=metric&appid={API_KEY}
+  Each city is fetched individually and combined into a list for rendering.
+
+
+📁 City Data File (cities.json)
+
+  public/data/cities.json contains:
+
   {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+    "List": [
+      { "CityCode": "1248991", "CityName": "Colombo" },
+      { "CityCode": "1850147", "CityName": "Tokyo" },
+      { "CityCode": "2644210", "CityName": "Liverpool" }
+    ]
+  }
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+🧠 Caching Logic
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+  Implemented in src/utils/cache.ts:
+  Stores full weather response in localStorage
+  Includes timestamp
+  Expires after 5 minutes
+  If user refreshes before 5 minutes → cached data is used
+  After expiration → fetches new data automatically
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+🎨 UI Design Overview
+
+  The UI features:
+  Cloud-style top and bottom backgrounds
+  Glassmorphism weather cards
+  Current temperature with icon
+  City name + weather description
+  Humidity, wind speed, min/max temperatures
+  Fully responsive (desktop + mobile)
+
+
+🐳 Docker Deployment
+
+This project includes a production-grade Dockerfile.
+
+  Build Docker Image
+  docker build -t weatherapp .
+
+  Run Container
+  docker run -p 3000:80 weatherapp
+
+  Access the app:
+  http://localhost:3000
+
+
+  🧱 Dockerfile (Multi-Stage Build)
+
+    Stage 1: Build React App using Node 18 Alpine
+    Stage 2: Serve using lightweight Nginx
+    This creates a small, secure production image.
