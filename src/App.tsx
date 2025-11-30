@@ -36,7 +36,7 @@ function App() {
     <div className="app-container">
 
       {/* --- Top Cloud Background --- */}
-      <img className="cloud-top" src="/images/cloud-top.png" />
+      <img className="cloud-top" src="../public/cloud-top.png" />
 
       <h1 className="title">Weather Dashboard</h1>
 
@@ -66,7 +66,7 @@ function App() {
       </div>
 
       {/* --- Bottom Cloud Background --- */}
-      <img className="cloud-bottom" src="/images/cloud-bottom.png" />
+      <img className="cloud-bottom" src="../public/cloud-bottom.png" />
     </div>
   );
 }
